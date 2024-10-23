@@ -6,4 +6,4 @@ TBD
 
 ## Funding
 
-The software developed under this organization is funded by ESA through the "Ecosystems Conservation: action with CSOs/NGOs – EXPRO+" programme.
+PEOPLE-ECCO is funded by the [European Space Agency](https://www.esa.int/) as one of the projects in the Pioneering Earth Observation apPlications for the Environment (PEOPLE) series of the Earth Observation Science for Society ([EO4Society](https://eo4society.esa.int/)) programme.
