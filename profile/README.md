@@ -26,14 +26,56 @@ The PEOPLE-ECCO platform is decoupled into specialized presentation layers, a ce
                             │         ecco-api          │
                             │ (Job & Execution Manager) │
                             └─────────────┬─────────────┘
-                                          │ [ OGC API / STAC / openEO Driver ]
+                                          │ [ Prefect deployment ]
                             ┌─────────────▼─────────────┐
-                            │    openEO backend / UDF   │
-                            │   (Distributed Executions)│
-                            └───────────────────────────┘
+                            │ Docker Algorithm Container│
+                            │  based on ecco-algorithm- │
+                            │  base + Algorithm.run(...)│
+                            └──────┬──────────────┬─────┘
+                                   │              │
+                         [ openEO / CDSE ]   [ STAC + assets ]
+                                   │              │
+              ┌────────────────────▼──────┐       ▼
+              │    openEO backend / UDF   │   S3-compatible
+              │   (Distributed Executions)│   object storage
+              └───────────────────────────┘
 ```
 
-## Components
+## PEOPLE-ECCO Solutions
+
+The project develops six thematic solutions for EO data analysis. These can be categorized into three topics:
+
+1. Marine application
+2. Terrestrial application
+3. Counterfactual assements (Before-After control impact)
+
+### Solution components
+
+#### Marine solutions
+
+The arine solutions feature two algoriths:
+
+1. Submerged Aquatic Vegetation (SAV)
+2. Marine Habitat Frequency and Connectivity
+
+The implementation is available at [`ecco-marine-solutions`](https://github.com/PEOPLE-ECCO/ecco-marine-solutions).
+
+#### Terrestrial solutions
+
+The terrestrial solutions feature two algoriths:
+
+1. Vegetation Productivity Trend (VPT)
+2. Disturbance Occurrence 
+3. Habitat Disturbance
+
+The implementation is available at [`ecco-terrestrial-solutions`](https://github.com/PEOPLE-ECCO/ecco-terrestrial-solutions).
+
+#### Before-After control impact solution
+
+The BACI implementation supports users with statistical features for evaluting the impact of interventions at a given site.
+The implementation is available at [`ecco-baci-solutions`](https://github.com/PEOPLE-ECCO/ecco-baci-solutions).
+
+## Platform components
 
 ### Web portal
 
