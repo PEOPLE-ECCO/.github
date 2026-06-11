@@ -227,11 +227,6 @@ Processes are represented in the database by `Process` rows. Each process points
 
 #### API Features
 
-##### Documentation
-
-- `GET /`: serves ReDoc.
-- `GET /openapi.yaml`: serves the OpenAPI document.
-
 ##### Scenarios and Processes
 
 - `GET /scenarios/`: list readable scenarios.
@@ -293,10 +288,6 @@ Prefect flow runs algorithm
 ```text
 GET /timeseries/<timeseries_id>/download
   -> API streams a ZIP response
-  -> Writes README.txt first
-  -> Iterates all jobs for the timeseries
-  -> Reads each job's `stac.collection`
-  -> Downloads each referenced asset from S3
   -> Adds assets and collection.json files to the ZIP
 ```
 
@@ -306,15 +297,7 @@ The API container uses:
 
 - Python 3.13 Alpine.
 - GDAL and build dependencies.
-- Hypercorn configured in `hypercorn.conf.py`.
-- Port `5000`.
-- One `uvloop` worker.
 
-`docker-compose.yml` defines local services for:
-
-- `api`: the Quart/Hypercorn service.
-- `minio`: S3-compatible object storage.
-- `postgres`: PostgreSQL 17 database exposed on host port `5431`.
 
 Algorithm containers use the [`ecco-algorithm-base`](https://github.com/PEOPLE-ECCO/ecco-algorithm-base) Dockerfiles. The standard image is based on Python 3.12 Bookworm with `uv`, GDAL/PROJ dependencies, the Prefect wrapper, and the CWL wrapper; `plain.Dockerfile` provides a slimmer variant for algorithms that do not need the full geospatial system dependency set.
 
@@ -337,7 +320,7 @@ The module is selected at runtime through the `ALGORITHM_BASE` environment varia
 - `catalog`: a PySTAC catalog that the algorithm populates with result items and assets.
 - `parameters`: the execution parameters submitted through the API, including the spatial extent derived from the selected timeseries.
 
-The algorithm itself is responsible for the scientific workflow: loading EO collections, building openEO process graphs, starting batch jobs, downloading or generating result assets, and adding those assets to the provided STAC catalog. The shared wrapper intercepts `conn.create_job(...)` so openEO batch jobs can be tracked, logged, and costed after execution.
+The algorithm itself is responsible for the scientific workflow: loading EO collections, building openEO process graphs, starting batch jobs, downloading or generating result assets, and adding those assets to the provided STAC catalog. The shared wrapper intercepts `conn.create_job(...)` so openEO batch jobs can be tracked, logged, and cost-tracked after execution.
 
 #### Prefect execution
 
@@ -364,9 +347,9 @@ This keeps algorithm code focused on EO logic and result metadata, while deploym
 
 Instead of uploading to S3, the CWL wrapper copies referenced assets into `OUTPUT_DIR`, writes a `collection.json` STAC item collection, and writes `openeo_logs.txt` with tracked job logs, descriptions, and total costs.
 
-#### Earth Observation Application Package / APEx compatibility
+#### Earth Observation Application Package / ESA APEx compatibility
 
-The algorithm base keeps PEOPLE-ECCO algorithms compatible with Earth Observation Application Package (EOAP) and APEx-style execution by exposing the same algorithm contract through a CWL `CommandLineTool`. The CWL layer does not need to know the algorithm internals; it only needs to run the shared `cwl_wrapper.py` inside the algorithm container and provide the expected environment variables.
+The algorithm base keeps PEOPLE-ECCO algorithms compatible with the OGC Earth Observation Application Package (EOAP) and APEx-style execution by exposing the same algorithm contract through a CWL `CommandLineTool`. The CWL layer does not need to know the algorithm internals; it only needs to run the shared `cwl_wrapper.py` inside the algorithm container and provide the expected environment variables.
 
 The [`eoap-example`](https://github.com/PEOPLE-ECCO/eoap-example) repository shows this pattern in a minimal package. Its `run.cwl` declares a workflow with JSON `parameters`, CDSE credentials, and a `run_name`, then uses a `DockerRequirement` to run the algorithm image. The CWL environment maps those inputs to `ALGORITHM_BASE`, `PARAMETERS_FILE`, `CDSE_CLIENT_ID`, `CDSE_CLIENT_SECRET`, `RUN_NAME`, and `OUTPUT_DIR`, and invokes:
 
