@@ -53,7 +53,7 @@ The project develops six thematic solutions for EO data analysis. These can be c
 
 #### Marine solutions
 
-The arine solutions feature two algoriths:
+The marine solutions feature two algorithms:
 
 1. Submerged Aquatic Vegetation (SAV)
 2. Marine Habitat Frequency and Connectivity
@@ -62,7 +62,7 @@ The implementation is available at [`ecco-marine-solutions`](https://github.com/
 
 #### Terrestrial solutions
 
-The terrestrial solutions feature two algoriths:
+The terrestrial solutions feature three algorithms:
 
 1. Vegetation Productivity Trend (VPT)
 2. Disturbance Occurrence 
