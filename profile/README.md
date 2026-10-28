@@ -45,20 +45,20 @@ The PEOPLE-ECCO platform is decoupled into specialized presentation layers, a ce
 
 The project develops six thematic solutions for EO data analysis. These can be categorized into three topics:
 
-1. Marine application
+1. Aquatic application
 2. Terrestrial application
 3. Counterfactual assements (Before-After control impact)
 
 ### Solution components
 
-#### Marine solutions
+#### Aquatic solutions
 
-The marine solutions feature two algorithms:
+The aquatic solutions feature two algorithms:
 
 1. Submerged Aquatic Vegetation (SAV)
-2. Marine Habitat Frequency and Connectivity
+2. Aquatic Habitat Frequency and Connectivity
 
-The implementation is available at [`ecco-marine-solutions`](https://github.com/PEOPLE-ECCO/ecco-marine-solutions).
+The implementation is available at [`ecco-aquatic-solutions`](https://github.com/PEOPLE-ECCO/ecco-aquatic-solutions).
 
 #### Terrestrial solutions
 
